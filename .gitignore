@@ -35,8 +35,5 @@ dev-dist
 *.sln
 *.sw?
 
-# Generated route tree (regenerated on dev/build)
-src/routeTree.gen.ts
-
 # Misc
 errors.txt
