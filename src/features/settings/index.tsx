@@ -1,8 +1,8 @@
 import { Outlet } from '@tanstack/react-router'
-import { useTranslation } from 'react-i18next'
+import { Separator } from '@asteby/metacore-ui/primitives'
 import { Bell, Palette, UserCog } from 'lucide-react'
-import { Separator } from '@/components/ui/separator'
-import { SidebarNav, NavItem } from './components/sidebar-nav'
+import { useTranslation } from 'react-i18next'
+import { SidebarNav, type NavItem } from './components/sidebar-nav'
 
 export function Settings() {
   const { t } = useTranslation()
@@ -38,16 +38,14 @@ export function Settings() {
         <h1 className='text-2xl font-bold tracking-tight md:text-3xl'>
           {t('common.settings')}
         </h1>
-        <p className='text-muted-foreground'>
-          {t('common.manage_account')}
-        </p>
+        <p className='text-muted-foreground'>{t('common.manage_account')}</p>
       </div>
       <Separator className='my-4 lg:my-6' />
       <div className='flex flex-col lg:flex-row lg:space-x-12'>
-        <aside className='lg:w-1/5 shrink-0 mb-4 lg:mb-0 lg:sticky lg:top-0 lg:self-start'>
+        <aside className='mb-4 shrink-0 lg:sticky lg:top-0 lg:mb-0 lg:w-1/5 lg:self-start'>
           <SidebarNav items={sidebarNavGroups} />
         </aside>
-        <div className='flex-1 min-w-0'>
+        <div className='min-w-0 flex-1'>
           <Outlet />
         </div>
       </div>

@@ -1,15 +1,13 @@
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
-import { ChevronDownIcon } from '@radix-ui/react-icons'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useTranslation } from 'react-i18next'
-import { toast } from 'sonner'
-import { fonts } from '@/config/fonts'
-import { cn } from '@/lib/utils'
-import { useFont } from '@/context/font-provider'
-import { useTheme } from '@/context/theme-provider'
-import { Button, buttonVariants } from '@/components/ui/button'
+import { useFont } from '@asteby/metacore-app-providers'
+import { useTheme } from '@asteby/metacore-theme'
+import { fonts } from '@asteby/metacore-theme/fonts'
+import { cn } from '@asteby/metacore-ui/lib'
 import {
+  Button,
+  buttonVariants,
   Form,
   FormControl,
   FormDescription,
@@ -17,11 +15,15 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form'
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group'
+  RadioGroup,
+  RadioGroupItem,
+} from '@asteby/metacore-ui/primitives'
+import { ChevronDown as ChevronDownIcon } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
+import { toast } from 'sonner'
 
 const appearanceFormSchema = z.object({
-  theme: z.enum(['light', 'dark']),
+  theme: z.enum(['light', 'dark', 'system']),
   font: z.enum(fonts),
 })
 
@@ -33,8 +35,8 @@ export function AppearanceForm() {
   const { theme, setTheme } = useTheme()
 
   const defaultValues: Partial<AppearanceFormValues> = {
-    theme: theme as 'light' | 'dark',
-    font,
+    theme: theme,
+    font: font as AppearanceFormValues['font'],
   }
 
   const form = useForm<AppearanceFormValues>({

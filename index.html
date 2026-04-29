@@ -1,162 +1,96 @@
 <!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<head>
-  <meta charset="UTF-8" />
-  <link rel="icon" type="image/svg+xml" href="/images/favicon.svg" media="(prefers-color-scheme: light)" />
-  <link rel="icon" type="image/svg+xml" href="/images/favicon_light.svg" media="(prefers-color-scheme: dark)" />
-  <link rel="icon" type="image/png" href="/images/favicon.png" media="(prefers-color-scheme: light)" />
-  <link rel="icon" type="image/png" href="/images/favicon_light.png" media="(prefers-color-scheme: dark)" />
+    <!-- Primary Meta Tags -->
+    <title>Metacore Starter</title>
+    <meta name="title" content="Metacore Starter" />
+    <meta
+      name="description"
+      content="Vite + React starter for the metacore ecosystem"
+    />
 
-  <link rel="apple-touch-icon" href="/images/icons/ios/180.png" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-  <meta name="apple-mobile-web-app-title" content="Ops" />
-  <meta name="msapplication-TileColor" content="#84cc16" />
-  <meta name="msapplication-TileImage" content="/images/icons/windows11/Square150x150Logo.scale-200.png" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- font family -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Manrope:wght@200..800&display=swap"
+      rel="stylesheet"
+    />
 
-  <!-- Primary Meta Tags -->
-  <title>Ops</title>
-  <meta name="title" content="Ops" />
-  <meta name="description" content="ERP SaaS Platform" />
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: oklch(0.994 0 0);
+      }
 
-  <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://ops.asteby.com" />
-  <meta property="og:title" content="Ops" />
-  <meta property="og:description" content="ERP SaaS Platform" />
-  <meta property="og:image" content="https://ops.asteby.com/images/og-image.png" />
+      html.dark body {
+        background-color: oklch(0.22 0.01 131);
+        color: oklch(0.9551 0 0);
+      }
 
-  <!-- Twitter -->
-  <meta property="twitter:card" content="summary_large_image" />
-  <meta property="twitter:url" content="https://ops.asteby.com" />
-  <meta property="twitter:title" content="Ops" />
-  <meta property="twitter:description" content="ERP SaaS Platform" />
-  <meta property="twitter:image" content="https://ops.asteby.com/images/og-image.png" />
+      .initial-loader {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        background-color: inherit;
+      }
 
-  <!-- font family -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Manrope:wght@200..800&display=swap"
-    rel="stylesheet" />
-
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background-color: oklch(0.9940 0 0);
-      /* overflow: hidden;  Avoid this if it sticks, but margin 0 is key */
-    }
-
-    /* Prevent white flash on reload */
-    html.dark body {
-      background-color: oklch(0.22 0.01 131);
-      color: oklch(0.9551 0 0);
-    }
-
-    .initial-loader {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: 9999;
-      background-color: inherit;
-    }
-
-    .initial-loader svg {
-      width: 64px;
-      height: 64px;
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-      0% {
+      .initial-loader-spinner {
+        width: 32px;
+        height: 32px;
+        border: 3px solid currentColor;
+        border-top-color: transparent;
+        border-radius: 50%;
         opacity: 0.6;
-        transform: scale(0.95);
+        animation: spin 1s linear infinite;
       }
 
-      50% {
-        opacity: 1;
-        transform: scale(1);
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
       }
+    </style>
 
-      100% {
-        opacity: 0.6;
-        transform: scale(0.95);
-      }
-    }
-  </style>
+    <script>
+      ;(function () {
+        function getCookie(name) {
+          const value = `; ${document.cookie}`
+          const parts = value.split(`; ${name}=`)
+          if (parts.length === 2) return parts.pop().split(';').shift()
+        }
 
-  <script>
-    (function () {
-      function getCookie(name) {
-        const value = `; ${document.cookie}`;
-        const parts = value.split(`; ${name}=`);
-        if (parts.length === 2) return parts.pop().split(';').shift();
-      }
+        const storageKey = 'vite-ui-theme'
+        const theme = getCookie(storageKey) || 'system'
+        const root = document.documentElement
 
-      const storageKey = 'vite-ui-theme';
-      const theme = getCookie(storageKey) || 'system';
-      const root = document.documentElement;
+        if (
+          theme === 'dark' ||
+          (theme === 'system' &&
+            window.matchMedia('(prefers-color-scheme: dark)').matches)
+        ) {
+          root.classList.add('dark')
+        } else {
+          root.classList.remove('dark')
+        }
+      })()
+    </script>
+  </head>
 
-      if (theme === 'dark' || (theme === 'system' && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        root.classList.add('dark');
-      } else {
-        root.classList.remove('dark');
-      }
+  <body>
+    <div id="initial-loader" class="initial-loader">
+      <div class="initial-loader-spinner" aria-label="Loading"></div>
+    </div>
 
-      // Capture PWA install prompt event early
-      window.addEventListener('beforeinstallprompt', (e) => {
-        e.preventDefault();
-        window.deferredPrompt = e;
-      });
-    })();
-  </script>
-
-  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
-  <meta name="theme-color" content="#1a2e05" media="(prefers-color-scheme: dark)" />
-</head>
-
-<body>
-  <div id="initial-loader" class="initial-loader">
-    <svg id="initial-loader-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96.8 96.8">
-      <defs>
-        <linearGradient id="ops-gradient-loader" x1="0%" y1="0%" x2="100%" y2="0%" gradientUnits="userSpaceOnUse">
-          <stop offset="0%" stop-color="#84cc16" />
-          <stop offset="100%" stop-color="#65a30d" />
-        </linearGradient>
-      </defs>
-
-      <g id="logo-shape-loader">
-        <path d="M74.3,96.8h-25.9C21.6,96.8,0,75,0,48.4S21.6,0,48.4,0s48.4,26.2,48.4,48.4v48.4h-22.5"
-          fill="url(#ops-gradient-loader)" />
-      </g>
-
-      <g fill="white" transform="translate(48.4, 48.4)">
-        <path fill-rule="evenodd" d="M 0,0 m -20,0 a 20,20 0 1,0 40,0 a 20,20 0 1,0 -40,0 M 0,0 m -8,0 a 8,8 0 1,1 16,0 a 8,8 0 1,1 -16,0"/>
-        <rect x="-7" y="-28" width="14" height="10" rx="2" ry="2" />
-        <rect x="-7" y="-28" width="14" height="10" rx="2" ry="2" transform="rotate(60)" />
-        <rect x="-7" y="-28" width="14" height="10" rx="2" ry="2" transform="rotate(120)" />
-        <rect x="-7" y="-28" width="14" height="10" rx="2" ry="2" transform="rotate(180)" />
-        <rect x="-7" y="-28" width="14" height="10" rx="2" ry="2" transform="rotate(240)" />
-        <rect x="-7" y="-28" width="14" height="10" rx="2" ry="2" transform="rotate(300)" />
-      </g>
-    </svg>
-  </div>
-  
-  <!-- Facebook SDK for JavaScript -->
-  <div id="fb-root"></div>
-  <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
-  
-  <div id="root"></div>
-  <script type="module" src="/src/main.tsx"></script>
-</body>
-
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>

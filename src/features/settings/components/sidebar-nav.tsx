@@ -1,17 +1,17 @@
 import { useState, type JSX } from 'react'
 import { useLocation, useNavigate, Link } from '@tanstack/react-router'
-import { cn } from '@/lib/utils'
-import { buttonVariants } from '@/components/ui/button'
-import { ScrollArea } from '@/components/ui/scroll-area'
+import { cn } from '@asteby/metacore-ui/lib'
 import {
+  buttonVariants,
+  ScrollArea,
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue,
-  SelectGroup,
-  SelectLabel,
-} from '@/components/ui/select'
+} from '@asteby/metacore-ui/primitives'
 
 export interface NavItem {
   href: string
@@ -67,16 +67,13 @@ export function SidebarNav({ className, items, ...props }: SidebarNavProps) {
         className='bg-background hidden w-full min-w-40 px-1 py-2 md:block'
       >
         <nav
-          className={cn(
-            'flex flex-col space-y-6 py-1',
-            className
-          )}
+          className={cn('flex flex-col space-y-6 py-1', className)}
           {...props}
         >
           {items.map((group, i) => (
             <div key={i} className='flex flex-col space-y-1'>
               {group.title && (
-                <h4 className='mb-2 px-2 text-sm font-semibold tracking-tight text-muted-foreground uppercase'>
+                <h4 className='text-muted-foreground mb-2 px-2 text-sm font-semibold tracking-tight uppercase'>
                   {group.title}
                 </h4>
               )}
@@ -88,7 +85,7 @@ export function SidebarNav({ className, items, ...props }: SidebarNavProps) {
                     buttonVariants({ variant: 'ghost' }),
                     pathname === item.href
                       ? 'bg-muted hover:bg-accent'
-                      : 'hover:bg-accent hover:underline text-muted-foreground',
+                      : 'hover:bg-accent text-muted-foreground hover:underline',
                     'justify-start font-medium'
                   )}
                 >

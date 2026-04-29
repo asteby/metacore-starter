@@ -1,7 +1,6 @@
 import { createFileRoute, redirect } from '@tanstack/react-router'
-import { AuthenticatedLayout } from '@/components/layout/authenticated-layout'
-import { useAuthStore } from '@/stores/auth-store'
-import { useMetadataCache } from '@/stores/metadata-cache'
+import { useAuthStore } from '@asteby/metacore-auth'
+import { AppShell } from '@/components/layout/app-shell'
 
 export const Route = createFileRoute('/_authenticated')({
   beforeLoad: () => {
@@ -14,9 +13,6 @@ export const Route = createFileRoute('/_authenticated')({
         },
       })
     }
-
-    // Fire-and-forget: prefetch all metadata into cache once after auth
-    useMetadataCache.getState().prefetchAll()
   },
-  component: AuthenticatedLayout,
+  component: AppShell,
 })

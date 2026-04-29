@@ -7,55 +7,62 @@ import {
   QueryClientProvider,
 } from '@tanstack/react-query'
 import { RouterProvider, createRouter } from '@tanstack/react-router'
+import {
+  DirectionProvider,
+  FontProvider,
+  LayoutProvider,
+  SearchProvider,
+} from '@asteby/metacore-app-providers'
+import { useAuthStore } from '@asteby/metacore-auth'
+import { ThemeProvider } from '@asteby/metacore-theme'
+import { fonts } from '@asteby/metacore-theme/fonts'
 import { toast } from 'sonner'
-import { useAuthStore } from '@/stores/auth-store'
-import { useBranchStore } from '@/stores/branch-store'
-import { handleServerError } from '@/lib/handle-server-error'
-import { DirectionProvider } from './context/direction-provider'
-import { FontProvider } from './context/font-provider'
-import { ThemeProvider } from './context/theme-provider'
-import { PWAProvider } from './context/pwa-provider'
-import { PWAInstallPrompt } from './components/pwa-install-prompt'
-import { PWAUpdatePrompt } from './components/pwa-update-prompt'
-import { OfflineIndicator } from './components/offline-indicator'
-import { MetacoreAppProvider } from './features/metacore'
+// I18n
+import './i18n/i18n'
 // Generated Routes
 import { routeTree } from './routeTree.gen'
 // Styles
 import './styles/index.css'
-// I18n
-import './i18n/i18n'
-// Compiled addon components (modals, actions)
-import { registerAddons } from './addons'
 
-registerAddons()
+function handleServerError(error: unknown) {
+  // eslint-disable-next-line no-console
+  console.log(error)
+  let errMsg = 'Something went wrong!'
+  if (
+    error &&
+    typeof error === 'object' &&
+    'status' in error &&
+    Number(error.status) === 204
+  ) {
+    errMsg = 'Content not found.'
+  }
+  if (error instanceof AxiosError) {
+    errMsg =
+      error.response?.data?.message ||
+      error.response?.data?.title ||
+      error.message
+  }
+  toast.error(errMsg)
+}
 
 const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
       retry: (failureCount, error) => {
-        // eslint-disable-next-line no-console
-        if (import.meta.env.DEV) console.log({ failureCount, error })
-
-        if (failureCount >= 0 && import.meta.env.DEV) return false
         if (failureCount > 3 && import.meta.env.PROD) return false
-
         return !(
           error instanceof AxiosError &&
           [401, 403].includes(error.response?.status ?? 0)
         )
       },
       refetchOnWindowFocus: import.meta.env.PROD,
-      staleTime: 10 * 1000, // 10s
+      staleTime: 10 * 1000,
     },
     mutations: {
       onError: (error) => {
         handleServerError(error)
-
-        if (error instanceof AxiosError) {
-          if (error.response?.status === 304) {
-            toast.error('Content not modified!')
-          }
+        if (error instanceof AxiosError && error.response?.status === 304) {
+          toast.error('Content not modified!')
         }
       },
     },
@@ -71,28 +78,11 @@ const queryClient = new QueryClient({
         }
         if (error.response?.status === 500) {
           toast.error('Internal Server Error!')
-          // Only navigate to error page in production to avoid disrupting HMR in development
-          if (import.meta.env.PROD) {
-            router.navigate({ to: '/500' })
-          }
-        }
-        if (error.response?.status === 403) {
-          // router.navigate("/forbidden", { replace: true });
+          if (import.meta.env.PROD) router.navigate({ to: '/500' })
         }
       }
     },
   }),
-})
-
-// Refetch only active (mounted) queries when branch changes
-let prevBranchId: string | undefined = useBranchStore.getState().currentBranch?.id
-useBranchStore.subscribe((state) => {
-  const newId = state.currentBranch?.id
-  if (newId !== prevBranchId) {
-    prevBranchId = newId
-    queryClient.refetchQueries({ type: 'active' })
-    queryClient.invalidateQueries({ type: 'inactive' })
-  }
 })
 
 // Create a new router instance
@@ -118,17 +108,13 @@ root.render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
-        <FontProvider>
+        <FontProvider fonts={fonts}>
           <DirectionProvider>
-            <PWAProvider>
-              <MetacoreAppProvider>
+            <LayoutProvider>
+              <SearchProvider>
                 <RouterProvider router={router} />
-              </MetacoreAppProvider>
-
-              <PWAInstallPrompt />
-              <PWAUpdatePrompt />
-              <OfflineIndicator />
-            </PWAProvider>
+              </SearchProvider>
+            </LayoutProvider>
           </DirectionProvider>
         </FontProvider>
       </ThemeProvider>

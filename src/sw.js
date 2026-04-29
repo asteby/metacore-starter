@@ -1,19 +1,36 @@
-import { cleanupOutdatedCaches, precacheAndRoute } from 'workbox-precaching'
-import { clientsClaim } from 'workbox-core'
-import { registerRoute } from 'workbox-routing'
-import { NetworkFirst, StaleWhileRevalidate, CacheFirst } from 'workbox-strategies'
+/**
+ * Metacore PWA service worker template.
+ *
+ * Copy this file to your app's `src/sw.js` and adjust LANDING_ROUTES /
+ * runtime caching patterns to match your deployment.
+ *
+ * Works with `vite-plugin-pwa` when using `strategies: 'injectManifest'`
+ * (which is the default from `@asteby/metacore-pwa/vite-plugin`).
+ */
 import { CacheableResponsePlugin } from 'workbox-cacheable-response'
+import { clientsClaim } from 'workbox-core'
 import { ExpirationPlugin } from 'workbox-expiration'
+import { cleanupOutdatedCaches, precacheAndRoute } from 'workbox-precaching'
+import { registerRoute } from 'workbox-routing'
+import {
+  NetworkFirst,
+  StaleWhileRevalidate,
+  CacheFirst,
+} from 'workbox-strategies'
 
-// Landing page routes — let nginx handle these directly (no SW interception)
+// Routes that should bypass the service worker (let your CDN/nginx handle them).
+// Customize this pattern for your deployment.
 const LANDING_ROUTES = /^\/($|en(\/|$)|es(\/|$)|sitemap|robots\.txt|_next\/)/
 
 self.addEventListener('fetch', (event) => {
-    const url = new URL(event.request.url)
-    if (url.origin === self.location.origin && LANDING_ROUTES.test(url.pathname)) {
-        // Skip SW — go straight to network (nginx)
-        return
-    }
+  const url = new URL(event.request.url)
+  if (
+    url.origin === self.location.origin &&
+    LANDING_ROUTES.test(url.pathname)
+  ) {
+    // Skip SW — go straight to network
+    return
+  }
 })
 
 cleanupOutdatedCaches()
@@ -22,116 +39,112 @@ cleanupOutdatedCaches()
 precacheAndRoute(self.__WB_MANIFEST)
 
 self.addEventListener('message', (event) => {
-    if (event.data && event.data.type === 'SKIP_WAITING') {
-        self.skipWaiting()
-    }
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting()
+  }
 })
 clientsClaim()
 
-// Runtime Caching Setup (mirrors vite.config.ts)
+// Runtime caching
 
 // API
 registerRoute(
-    ({ url }) => /^https:\/\/api\./i.test(url.href),
-    new NetworkFirst({
-        cacheName: 'api-cache',
-        plugins: [
-            new CacheableResponsePlugin({
-                statuses: [0, 200],
-            }),
-            new ExpirationPlugin({
-                maxEntries: 50,
-                maxAgeSeconds: 60 * 60 * 24, // 24 hours
-            }),
-        ],
-    })
+  ({ url }) => /^https:\/\/api\./i.test(url.href),
+  new NetworkFirst({
+    cacheName: 'api-cache',
+    plugins: [
+      new CacheableResponsePlugin({ statuses: [0, 200] }),
+      new ExpirationPlugin({
+        maxEntries: 50,
+        maxAgeSeconds: 60 * 60 * 24,
+      }),
+    ],
+  })
 )
 
-// Google Fonts Stylesheets
+// Google Fonts stylesheets
 registerRoute(
-    ({ url }) => /^https:\/\/fonts\.googleapis\.com/.test(url.href),
-    new StaleWhileRevalidate({
-        cacheName: 'google-fonts-stylesheets',
-    })
+  ({ url }) => /^https:\/\/fonts\.googleapis\.com/.test(url.href),
+  new StaleWhileRevalidate({
+    cacheName: 'google-fonts-stylesheets',
+  })
 )
 
-// Google Fonts Webfonts
+// Google Fonts webfonts
 registerRoute(
-    ({ url }) => /^https:\/\/fonts\.gstatic\.com/.test(url.href),
-    new CacheFirst({
-        cacheName: 'google-fonts-webfonts',
-        plugins: [
-            new CacheableResponsePlugin({
-                statuses: [0, 200],
-            }),
-            new ExpirationPlugin({
-                maxEntries: 30,
-                maxAgeSeconds: 60 * 60 * 24 * 365, // 1 year
-            }),
-        ],
-    })
+  ({ url }) => /^https:\/\/fonts\.gstatic\.com/.test(url.href),
+  new CacheFirst({
+    cacheName: 'google-fonts-webfonts',
+    plugins: [
+      new CacheableResponsePlugin({ statuses: [0, 200] }),
+      new ExpirationPlugin({
+        maxEntries: 30,
+        maxAgeSeconds: 60 * 60 * 24 * 365,
+      }),
+    ],
+  })
 )
 
-// Push Notification Handler
+// Push notifications
 self.addEventListener('push', (event) => {
-    let title = 'Ops Notification'
-    let body = 'Tienes una nueva notificación'
-    let icon = '/images/icons/android/android-launchericon-192-192.png'
-    let badge = '/images/icons/monochrome.png'
-    let dataUrl = '/'
-    let tag = 'general-notification'
+  let title = 'Notification'
+  let body = 'Tienes una nueva notificación'
+  let icon = '/images/icons/android/android-launchericon-192-192.png'
+  let badge = '/images/icons/monochrome.png'
+  let dataUrl = '/'
+  let tag = 'general-notification'
 
-    if (event.data) {
-        try {
-            const data = event.data.json()
-            title = data.title || title
-            body = data.body || body
-            icon = data.icon || icon
-            badge = data.badge || badge // Use monochrome icon for badge
-            dataUrl = data.url || dataUrl
-            tag = data.tag || tag
-        } catch (e) {
-            body = event.data.text()
-        }
+  if (event.data) {
+    try {
+      const data = event.data.json()
+      title = data.title || title
+      body = data.body || body
+      icon = data.icon || icon
+      badge = data.badge || badge
+      dataUrl = data.url || dataUrl
+      tag = data.tag || tag
+    } catch (e) {
+      body = event.data.text()
     }
+  }
 
-    const options = {
-        body,
-        icon,
-        badge,
-        data: { url: dataUrl },
-        tag,
-        vibrate: [100, 50, 100],
-        actions: [
-            {
-                action: 'open',
-                title: 'Ver'
-            }
-        ]
-    }
+  const options = {
+    body,
+    icon,
+    badge,
+    data: { url: dataUrl },
+    tag,
+    vibrate: [100, 50, 100],
+    actions: [
+      {
+        action: 'open',
+        title: 'Ver',
+      },
+    ],
+  }
 
-    event.waitUntil(self.registration.showNotification(title, options))
+  event.waitUntil(self.registration.showNotification(title, options))
 })
 
-// Notification Click Handler
+// Notification click handler
 self.addEventListener('notificationclick', (event) => {
-    event.notification.close()
+  event.notification.close()
 
-    event.waitUntil(
-        clients.matchAll({ type: 'window', includeUncontrolled: true }).then((clientList) => {
-            const url = event.notification.data.url
+  event.waitUntil(
+    clients
+      .matchAll({ type: 'window', includeUncontrolled: true })
+      .then((clientList) => {
+        const url = event.notification.data.url
 
-            // Focus existing window if available
-            for (const client of clientList) {
-                if (client.url === url && 'focus' in client) {
-                    return client.focus()
-                }
-            }
+        for (const client of clientList) {
+          if (client.url === url && 'focus' in client) {
+            return client.focus()
+          }
+        }
 
-            // Open new window
-            if (clients.openWindow) {
-                return clients.openWindow(url)
-            }
-        })
-    )
+        if (clients.openWindow) {
+          return clients.openWindow(url)
+        }
+      })
+  )
 })

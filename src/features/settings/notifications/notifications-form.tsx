@@ -1,18 +1,18 @@
 import { z } from 'zod'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useTranslation } from 'react-i18next'
-import { toast } from 'sonner'
-import { Button } from '@/components/ui/button'
 import {
+  Button,
   Form,
   FormControl,
   FormDescription,
   FormField,
   FormItem,
   FormLabel,
-} from '@/components/ui/form'
-import { Switch } from '@/components/ui/switch'
+  Switch,
+} from '@asteby/metacore-ui/primitives'
+import { useTranslation } from 'react-i18next'
+import { toast } from 'sonner'
 
 const notificationsFormSchema = z.object({
   email_messages: z.boolean(),
@@ -32,8 +32,11 @@ export function NotificationsForm() {
   })
 
   function onSubmit(data: NotificationsFormValues) {
+    // eslint-disable-next-line no-console
     console.log(data)
-    toast.success(t('settings.notifications.preferences_saved'))
+    toast.success(
+      t('settings.notifications.preferences_saved', 'Preferences saved')
+    )
   }
 
   return (
@@ -46,7 +49,9 @@ export function NotificationsForm() {
             render={({ field }) => (
               <FormItem className='flex flex-row items-center justify-between rounded-lg border p-4'>
                 <div className='space-y-0.5'>
-                  <FormLabel className='text-base'>{t('settings.notifications.new_messages')}</FormLabel>
+                  <FormLabel className='text-base'>
+                    {t('settings.notifications.new_messages')}
+                  </FormLabel>
                   <FormDescription>
                     {t('settings.notifications.new_messages_description')}
                   </FormDescription>
@@ -66,7 +71,9 @@ export function NotificationsForm() {
             render={({ field }) => (
               <FormItem className='flex flex-row items-center justify-between rounded-lg border p-4'>
                 <div className='space-y-0.5'>
-                  <FormLabel className='text-base'>{t('settings.notifications.news_promotions')}</FormLabel>
+                  <FormLabel className='text-base'>
+                    {t('settings.notifications.news_promotions')}
+                  </FormLabel>
                   <FormDescription>
                     {t('settings.notifications.news_promotions_description')}
                   </FormDescription>
