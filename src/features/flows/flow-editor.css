@@ -1,0 +1,369 @@
+/* Flow Editor Styles */
+@import '@xyflow/react/dist/style.css';
+
+.flow-editor {
+    width: 100%;
+    height: 100%;
+    background: var(--background);
+}
+
+/* Custom node styles */
+.flow-node {
+    padding: 12px 16px;
+    border-radius: 12px;
+    min-width: 180px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border: 2px solid transparent;
+    transition: all 0.2s ease;
+}
+
+.flow-node:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.flow-node.selected {
+    border-color: hsl(var(--primary));
+}
+
+/* Trigger node */
+/* Trigger node base */
+.flow-node-trigger {
+    background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+    color: white;
+}
+
+/* Trigger variations based on trigger-configs.ts */
+.flow-node-trigger-keyword {
+    /* orange-500 */
+    background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+}
+
+.flow-node-trigger-welcome {
+    /* blue-500 */
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+}
+
+.flow-node-trigger-conversation_open {
+    /* Alias for legacy/compatibility */
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+}
+
+.flow-node-trigger-webhook {
+    /* purple-500 */
+    background: linear-gradient(135deg, #a855f7 0%, #9333ea 100%);
+}
+
+.flow-node-trigger-schedule {
+    /* indigo-500 */
+    background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+}
+
+.flow-node-trigger-form_submit {
+    /* green-500 */
+    background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+}
+
+.flow-node-trigger-tag_added {
+    /* pink-500 */
+    background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
+}
+
+.flow-node-trigger-manual {
+    /* gray-500 */
+    background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+}
+
+.flow-node-trigger-event {
+    /* violet-500 */
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+}
+
+.flow-node-trigger-payment_received {
+    /* emerald-500 */
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+}
+
+.flow-node-trigger-button_click {
+    /* rose-500 */
+    background: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%);
+}
+
+.flow-node-trigger-tag_removed {
+    /* red-500 */
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+}
+
+.flow-node-trigger-variable_changed {
+    /* yellow-500 */
+    background: linear-gradient(135deg, #eab308 0%, #ca8a04 100%);
+}
+
+.flow-node-trigger-api {
+    /* teal-500 */
+    background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);
+}
+
+.flow-node-trigger-sequence_ended {
+    /* slate-600 */
+    background: linear-gradient(135deg, #475569 0%, #334155 100%);
+}
+
+/* Action nodes */
+.flow-node-message {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    color: white;
+}
+
+.flow-node-email {
+    background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+    color: white;
+}
+
+.flow-node-http_request {
+    background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+    color: white;
+}
+
+.flow-node-set_variable {
+    background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+    color: white;
+}
+
+.flow-node-transform_data {
+    background: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);
+    color: white;
+}
+
+.flow-node-wait {
+    background: linear-gradient(135deg, #64748b 0%, #475569 100%);
+    color: white;
+}
+
+/* Logic nodes */
+.flow-node-condition {
+    background: linear-gradient(135deg, #a855f7 0%, #9333ea 100%);
+    color: white;
+}
+
+.flow-node-switch {
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+    color: white;
+}
+
+.flow-node-filter {
+    background: linear-gradient(135deg, #d946ef 0%, #c026d3 100%);
+    color: white;
+}
+
+.flow-node-loop {
+    background: linear-gradient(135deg, #ec4899 0%, #db2777 100%);
+    color: white;
+}
+
+/* AI nodes */
+.flow-node-ai_chat {
+    background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+    color: white;
+}
+
+.flow-node-ai_analyze {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    color: white;
+}
+
+.flow-node-ai_generate {
+    background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+    color: white;
+}
+
+/* Integration nodes */
+.flow-node-database {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+}
+
+.flow-node-webhook {
+    background: linear-gradient(135deg, #84cc16 0%, #65a30d 100%);
+    color: white;
+}
+
+.flow-node-api_call {
+    background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+    color: white;
+}
+
+/* Utility nodes */
+.flow-node-delay {
+    background: linear-gradient(135deg, #64748b 0%, #475569 100%);
+    color: white;
+}
+
+.flow-node-split {
+    background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+    color: white;
+}
+
+.flow-node-merge {
+    background: linear-gradient(135deg, #71717a 0%, #52525b 100%);
+    color: white;
+}
+
+.flow-node-error_handler {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    color: white;
+}
+
+/* Node header */
+.flow-node-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.flow-node-icon {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Node content */
+.flow-node-content {
+    margin-top: 8px;
+    font-size: 12px;
+    opacity: 0.9;
+}
+
+/* Node variables indicator */
+.flow-node-variables {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    font-size: 11px;
+    opacity: 0.8;
+}
+
+/* Handles */
+.react-flow__handle {
+    width: 12px;
+    height: 12px;
+    border: 2px solid white;
+    background: hsl(var(--primary));
+    transition: all 0.2s ease;
+}
+
+.react-flow__handle:hover {
+    width: 16px;
+    height: 16px;
+    background: hsl(var(--primary));
+    border-color: white;
+}
+
+.react-flow__handle.connectable {
+    cursor: crosshair;
+}
+
+.react-flow__handle.connecting {
+    background: #22c55e;
+    border-color: white;
+}
+
+.react-flow__handle-left {
+    left: -6px;
+}
+
+.react-flow__handle-right {
+    right: -6px;
+}
+
+/* Connection line (while dragging) */
+.react-flow__connection-path {
+    stroke: #6366f1;
+    stroke-width: 2;
+}
+
+.react-flow__connectionline {
+    stroke: #6366f1;
+    stroke-width: 2;
+}
+
+/* Edge styles */
+.react-flow__edge-path {
+    stroke: hsl(var(--primary));
+    stroke-width: 2;
+}
+
+.react-flow__edge.selected .react-flow__edge-path {
+    stroke: hsl(var(--primary));
+    stroke-width: 3;
+}
+
+/* Controls */
+.react-flow__controls {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.react-flow__controls-button {
+    background: hsl(var(--background));
+    border-bottom: 1px solid hsl(var(--border));
+}
+
+.react-flow__controls-button:hover {
+    background: hsl(var(--muted));
+}
+
+/* MiniMap */
+.react-flow__minimap {
+    background: hsl(var(--background));
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Sidebar panel */
+.flow-sidebar {
+    width: 280px;
+    background: hsl(var(--card));
+    border-left: 1px solid hsl(var(--border));
+    padding: 16px;
+    overflow-y: auto;
+}
+
+.flow-sidebar-section {
+    margin-bottom: 24px;
+}
+
+.flow-sidebar-title {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: hsl(var(--muted-foreground));
+    margin-bottom: 12px;
+}
+
+/* Draggable node items */
+.flow-node-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    border-radius: 8px;
+    cursor: grab;
+    transition: all 0.2s;
+    margin-bottom: 8px;
+}
+
+.flow-node-item:hover {
+    transform: translateX(4px);
+}
+
+.flow-node-item:active {
+    cursor: grabbing;
+}

@@ -1,0 +1,126 @@
+diff --git a/dist/index.js b/dist/index.js
+index 5ba7a95bc7a29605f32aa010a14224ad87bf6589..60b9ee9633c0898bab665bd286c1ed7b821696e5 100644
+--- a/dist/index.js
++++ b/dist/index.js
+@@ -18,10 +18,6 @@ var __copyProps = (to, from, except, desc) => {
+   return to;
+ };
+ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__getProtoOf(mod)) : {}, __copyProps(
+-  // If the importer is in node compatibility mode or this is not an ESM
+-  // file that has been converted to a CommonJS file using a Babel-
+-  // compatible transform (i.e. "__esModule" has not been set), then set
+-  // "default" to the CommonJS "module.exports" for node compatibility.
+   isNodeMode || !mod || !mod.__esModule ? __defProp(target, "default", { value: mod, enumerable: true }) : target,
+   mod
+ ));
+@@ -36,39 +32,29 @@ __export(index_exports, {
+ module.exports = __toCommonJS(index_exports);
+ 
+ // packages/react/compose-refs/src/compose-refs.tsx
++// Fix: React 19 treats ref callback returns as cleanup, causing infinite loops
+ var React = __toESM(require("react"));
+ function setRef(ref, value) {
+   if (typeof ref === "function") {
+-    return ref(value);
++    ref(value);
+   } else if (ref !== null && ref !== void 0) {
+     ref.current = value;
+   }
+ }
+ function composeRefs(...refs) {
+   return (node) => {
+-    let hasCleanup = false;
+-    const cleanups = refs.map((ref) => {
+-      const cleanup = setRef(ref, node);
+-      if (!hasCleanup && typeof cleanup == "function") {
+-        hasCleanup = true;
+-      }
+-      return cleanup;
+-    });
+-    if (hasCleanup) {
+-      return () => {
+-        for (let i = 0; i < cleanups.length; i++) {
+-          const cleanup = cleanups[i];
+-          if (typeof cleanup == "function") {
+-            cleanup();
+-          } else {
+-            setRef(refs[i], null);
+-          }
+-        }
+-      };
+-    }
++    for (const ref of refs) setRef(ref, node);
+   };
+ }
+ function useComposedRefs(...refs) {
+-  return React.useCallback(composeRefs(...refs), refs);
++  var refsRef = React.useRef(refs);
++  refsRef.current = refs;
++  return React.useCallback(
++    function(node) {
++      for (var _i = 0; _i < refsRef.current.length; _i++) {
++        setRef(refsRef.current[_i], node);
++      }
++    },
++    []
++  );
+ }
+-//# sourceMappingURL=index.js.map
+diff --git a/dist/index.mjs b/dist/index.mjs
+index 7dd9172a7228d70a25f708d0fd577cfc69ea15a8..aef2bffbf0ae6bf67a30ef08e64075aa399729b7 100644
+--- a/dist/index.mjs
++++ b/dist/index.mjs
+@@ -1,41 +1,30 @@
+ // packages/react/compose-refs/src/compose-refs.tsx
++// Fix: React 19 treats ref callback returns as cleanup, causing infinite loops
+ import * as React from "react";
+ function setRef(ref, value) {
+   if (typeof ref === "function") {
+-    return ref(value);
++    ref(value);
+   } else if (ref !== null && ref !== void 0) {
+     ref.current = value;
+   }
+ }
+ function composeRefs(...refs) {
+   return (node) => {
+-    let hasCleanup = false;
+-    const cleanups = refs.map((ref) => {
+-      const cleanup = setRef(ref, node);
+-      if (!hasCleanup && typeof cleanup == "function") {
+-        hasCleanup = true;
+-      }
+-      return cleanup;
+-    });
+-    if (hasCleanup) {
+-      return () => {
+-        for (let i = 0; i < cleanups.length; i++) {
+-          const cleanup = cleanups[i];
+-          if (typeof cleanup == "function") {
+-            cleanup();
+-          } else {
+-            setRef(refs[i], null);
+-          }
+-        }
+-      };
+-    }
++    for (const ref of refs) setRef(ref, node);
+   };
+ }
+ function useComposedRefs(...refs) {
+-  return React.useCallback(composeRefs(...refs), refs);
++  const refsRef = React.useRef(refs);
++  refsRef.current = refs;
++  return React.useCallback(
++    (node) => {
++      for (const ref of refsRef.current) setRef(ref, node);
++    },
++    // eslint-disable-next-line react-hooks/exhaustive-deps
++    []
++  );
+ }
+ export {
+   composeRefs,
+   useComposedRefs
+ };
+-//# sourceMappingURL=index.mjs.map
