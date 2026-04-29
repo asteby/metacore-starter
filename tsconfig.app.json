@@ -18,9 +18,7 @@
     /* Alias */
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"],
-      "@asteby/metacore-sdk": ["../../metacore-sdk/packages/sdk/src/index.ts"],
-      "@asteby/metacore-sdk/react": ["../../metacore-sdk/packages/sdk/src/react.tsx"]
+      "@/*": ["./src/*"]
     },
     "ignoreDeprecations": "6.0",
 

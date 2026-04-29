@@ -2,6 +2,13 @@
 @import 'tw-animate-css';
 @import './theme.css';
 
+/* Pull Tailwind classes from the metacore SDK packages so they survive purging. */
+@source '../../node_modules/@asteby/metacore-ui/dist/**/*.{js,jsx,ts,tsx}';
+@source '../../node_modules/@asteby/metacore-app-providers/dist/**/*.{js,jsx,ts,tsx}';
+@source '../../node_modules/@asteby/metacore-auth/dist/**/*.{js,jsx,ts,tsx}';
+@source '../../node_modules/@asteby/metacore-starter-core/dist/**/*.{js,jsx,ts,tsx}';
+@source '../../node_modules/@asteby/metacore-theme/dist/**/*.{js,jsx,ts,tsx}';
+
 @custom-variant dark (&:is(.dark *));
 
 @layer base {
@@ -32,7 +39,6 @@
 
   /* Prevent focus zoom on mobile devices */
   @media screen and (max-width: 767px) {
-
     input,
     select,
     textarea {
@@ -47,7 +53,6 @@
 }
 
 @utility no-scrollbar {
-
   /* Hide scrollbar for Chrome, Safari and Opera */
   &::-webkit-scrollbar {
     display: none;

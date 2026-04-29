@@ -1,119 +1,48 @@
-# Shadcn Admin Dashboard
+# metacore-starter
 
-Admin Dashboard UI crafted with Shadcn and Vite. Built with responsiveness and accessibility in mind.
+Vite + React starter that consumes the [metacore SDK](https://github.com/asteby) modularly. Use this as the source of truth when bootstrapping a new app in the metacore ecosystem — clone, rename, build.
 
-![alt text](public/images/shadcn-admin.png)
+## Stack
 
-[![Sponsored by Clerk](https://img.shields.io/badge/Sponsored%20by-Clerk-5b6ee1?logo=clerk)](https://go.clerk.com/GttUAaK)
+- **Build:** [Vite](https://vitejs.dev/) + [`@asteby/metacore-starter-config`](https://www.npmjs.com/package/@asteby/metacore-starter-config) (`defineMetacoreConfig` preset)
+- **Framework:** React 19 + TypeScript
+- **Routing:** [TanStack Router](https://tanstack.com/router/latest)
+- **Data:** [TanStack Query](https://tanstack.com/query/latest)
+- **Styling:** [Tailwind v4](https://tailwindcss.com/) + [`@asteby/metacore-theme`](https://www.npmjs.com/package/@asteby/metacore-theme)
+- **UI primitives:** [`@asteby/metacore-ui`](https://www.npmjs.com/package/@asteby/metacore-ui) (shadcn-derived, RTL-aware)
+- **Auth pages + store:** [`@asteby/metacore-auth`](https://www.npmjs.com/package/@asteby/metacore-auth)
+- **i18n:** [`@asteby/metacore-i18n`](https://www.npmjs.com/package/@asteby/metacore-i18n) (i18next under the hood)
 
-I've been creating dashboard UIs at work and for my personal projects. I always wanted to make a reusable collection of dashboard UI for future projects; and here it is now. While I've created a few custom components, some of the code is directly adapted from ShadcnUI examples.
+## What's included
 
-> This is not a starter project (template) though. I'll probably make one in the future.
+- Auth flow: `/sign-in`, `/sign-up`, `/forgot-password`, `/otp` (wired to `@asteby/metacore-auth/pages` — wire `onSubmit` to your backend).
+- Authenticated shell: `AppShell` consumes `AuthenticatedLayout` + `AppSidebar` + `Header` + `ProfileDropdown` from `@asteby/metacore-ui/layout`.
+- Minimal dashboard placeholder.
+- Settings: profile, appearance (theme + font), notifications.
+- Error pages: 401, 403, 404, 500, 503 — all from `@asteby/metacore-ui/error-pages`.
 
-## Features
-
-- Light/dark mode
-- Responsive
-- Accessible
-- With built-in Sidebar component
-- Global search command
-- 10+ pages
-- Extra custom components
-- RTL support
-
-<details>
-<summary>Customized Components (click to expand)</summary>
-
-This project uses Shadcn UI components, but some have been slightly modified for better RTL (Right-to-Left) support and other improvements. These customized components differ from the original Shadcn UI versions.
-
-If you want to update components using the Shadcn CLI (e.g., `npx shadcn@latest add <component>`), it's generally safe for non-customized components. For the listed customized ones, you may need to manually merge changes to preserve the project's modifications and avoid overwriting RTL support or other updates.
-
-> If you don't require RTL support, you can safely update the 'RTL Updated Components' via the Shadcn CLI, as these changes are primarily for RTL compatibility. The 'Modified Components' may have other customizations to consider.
-
-### Modified Components
-
-- scroll-area
-- sonner
-- separator
-
-### RTL Updated Components
-
-- alert-dialog
-- calendar
-- command
-- dialog
-- dropdown-menu
-- select
-- table
-- sheet
-- sidebar
-- switch
-
-**Notes:**
-
-- **Modified Components**: These have general updates, potentially including RTL adjustments.
-- **RTL Updated Components**: These have specific changes for RTL language support (e.g., layout, positioning).
-- For implementation details, check the source files in `src/components/ui/`.
-- All other Shadcn UI components in the project are standard and can be safely updated via the CLI.
-
-</details>
-
-## Tech Stack
-
-**UI:** [ShadcnUI](https://ui.shadcn.com) (TailwindCSS + RadixUI)
-
-**Build Tool:** [Vite](https://vitejs.dev/)
-
-**Routing:** [TanStack Router](https://tanstack.com/router/latest)
-
-**Type Checking:** [TypeScript](https://www.typescriptlang.org/)
-
-**Linting/Formatting:** [ESLint](https://eslint.org/) & [Prettier](https://prettier.io/)
-
-**Icons:** [Lucide Icons](https://lucide.dev/icons/), [Tabler Icons](https://tabler.io/icons) (Brand icons only)
-
-**Auth (partial):** [Clerk](https://go.clerk.com/GttUAaK)
-
-## Run Locally
-
-Clone the project
+## Run locally
 
 ```bash
-  git clone https://github.com/satnaing/shadcn-admin.git
+pnpm install
+pnpm dev
 ```
 
-Go to the project directory
+Other scripts:
 
-```bash
-  cd shadcn-admin
-```
+- `pnpm typecheck` — TypeScript check
+- `pnpm lint` — ESLint
+- `pnpm build` — production build (runs `tsc -b && vite build`)
+- `pnpm preview` — serve the build
 
-Install dependencies
+## Customize
 
-```bash
-  pnpm install
-```
-
-Start the server
-
-```bash
-  pnpm run dev
-```
-
-## Sponsoring this project ❤️
-
-If you find this project helpful or use this in your own work, consider [sponsoring me](https://github.com/sponsors/satnaing) to support development and maintenance. You can [buy me a coffee](https://buymeacoffee.com/satnaing) as well. Don’t worry, every penny helps. Thank you! 🙏
-
-For questions or sponsorship inquiries, feel free to reach out at [satnaingdev@gmail.com](mailto:satnaingdev@gmail.com).
-
-### Current Sponsor
-
-- [Clerk](https://go.clerk.com/GttUAaK) - authentication and user management for the modern web
-
-## Author
-
-Crafted with 🤍 by [@satnaing](https://github.com/satnaing)
+1. Update the brand name & logo in `src/components/layout/app-shell.tsx`, `src/assets/logo.tsx` and the auth route components.
+2. Replace the `onSubmit` stubs in `src/routes/(auth)/*.tsx` with real backend calls (see `@asteby/metacore-auth/api-client`).
+3. Add navigation entries in `src/components/layout/app-shell.tsx` (`navGroups`).
+4. Drop your features in `src/features/` and routes in `src/routes/_authenticated/`.
+5. Translation strings live in `src/i18n/locales/{en,es}.json`. The base SDK strings are merged from `@asteby/metacore-i18n/locales`.
 
 ## License
 
-Licensed under the [MIT License](https://choosealicense.com/licenses/mit/)
+[MIT](./LICENSE)
