@@ -24,6 +24,7 @@
     "@asteby/metacore-auth": "^6.0.0",
     "@asteby/metacore-i18n": "^5.1.0",
     "@asteby/metacore-lib": "^0.3.0",
+    "@asteby/metacore-marketplace": "^0.1.0",
     "@asteby/metacore-notifications": "^5.0.0",
     "@asteby/metacore-pwa": "^0.3.1",
     "@asteby/metacore-runtime-react": "^7.1.5",

@@ -21,6 +21,21 @@ export default defineConfig(async () => {
         '@': path.resolve(__dirname, './src'),
       },
     },
+    // metacoreOptimizeDeps (starter-config <= 0.3.0) doesn't yet include
+    // @asteby/metacore-marketplace; declare it here so Vite pre-bundles the
+    // package (and its subpath exports). See memory note "Vite optimizeDeps
+    // obligatorio para @asteby/metacore-* linked".
+    optimizeDeps: {
+      ...metacore.optimizeDeps,
+      include: [
+        ...(metacore.optimizeDeps?.include ?? []),
+        '@asteby/metacore-marketplace',
+        '@asteby/metacore-marketplace/client',
+        '@asteby/metacore-marketplace/hooks',
+        '@asteby/metacore-marketplace/components',
+        '@asteby/metacore-marketplace/providers',
+      ],
+    },
     define: {
       __APP_VERSION__: JSON.stringify(
         (() => {
