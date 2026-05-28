@@ -22,8 +22,11 @@ jobs:
         with:
           node-version: 20
 
+      # Pin pnpm to v10 — pnpm 11's default `minimum-release-age: 24h` blocks
+      # Renovate / fresh @asteby/metacore-* releases for 24h after publish.
+      # See memory note "pnpm 11 minimum-release-age default 24h".
       - name: Install pnpm
-        run: npm install -g pnpm
+        run: npm install -g pnpm@10
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile

@@ -14,7 +14,12 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
 } from '@asteby/metacore-ui/primitives'
-import { LayoutDashboard, Settings as SettingsIcon, LogOut } from 'lucide-react'
+import {
+  LayoutDashboard,
+  Settings as SettingsIcon,
+  LogOut,
+  Store,
+} from 'lucide-react'
 import { ThemeSwitch } from './theme-switch'
 
 const navGroups: NavGroupData[] = [
@@ -25,6 +30,15 @@ const navGroups: NavGroupData[] = [
         title: 'Dashboard',
         url: '/',
         icon: LayoutDashboard,
+      },
+      // Marketplace is wired by default so every starter-based app
+      // inherits the addon catalog. Remove this entry (and the
+      // marketplace route + feature folder) if your app doesn't expose
+      // addons.
+      {
+        title: 'Marketplace',
+        url: '/marketplace',
+        icon: Store,
       },
       {
         title: 'Settings',
