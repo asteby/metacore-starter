@@ -21,8 +21,8 @@ importers:
         specifier: ^0.3.0
         version: 0.3.0(date-fns@4.1.0)(sonner@2.0.7(react-dom@19.2.4(react@19.2.4))(react@19.2.4))
       '@asteby/metacore-marketplace':
-        specifier: ^0.1.0
-        version: 0.1.0
+        specifier: ^1.0.0
+        version: 1.0.0(@asteby/metacore-app-providers@0.6.5(cdc6eec5af8d762a5c6a99ba0f23ea5a))(@tanstack/react-query@5.95.2(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
       '@asteby/metacore-notifications':
         specifier: ^5.0.0
         version: 5.0.0(@asteby/metacore-ui@0.7.0(@tanstack/react-query@5.95.2(react@19.2.4))(@tanstack/react-router@1.168.5(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@tanstack/react-table@8.21.3(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react-hook-form@7.72.0(react@19.2.4))(react-i18next@16.6.6(i18next@25.10.10(typescript@6.0.2))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(typescript@6.0.2))(react@19.2.4)(tailwindcss@4.2.2))(@asteby/metacore-websocket@0.3.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@tanstack/react-query@5.95.2(react@19.2.4))(date-fns@4.1.0)(lucide-react@1.7.0(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(sonner@2.0.7(react-dom@19.2.4(react@19.2.4))(react@19.2.4))
@@ -262,6 +262,17 @@ packages:
       sonner: '>=1.7'
     peerDependenciesMeta:
       sonner:
+        optional: true
+
+  '@asteby/metacore-marketplace@1.0.0':
+    resolution: {integrity: sha512-NHoP/46FoTg0tI40W1BJOfhPlOHJZIxq8DivIZFwZznbKktxfD6MIury/QD3o84+1tK08KNoisELy4Uq3IzT8w==}
+    peerDependencies:
+      '@asteby/metacore-app-providers': ^8.0.0
+      '@tanstack/react-query': '>=5'
+      react: '>=18'
+      react-dom: '>=18'
+    peerDependenciesMeta:
+      '@asteby/metacore-app-providers':
         optional: true
 
   '@asteby/metacore-notifications@5.0.0':
@@ -4747,6 +4758,14 @@ snapshots:
       date-fns: 4.1.0
     optionalDependencies:
       sonner: 2.0.7(react-dom@19.2.4(react@19.2.4))(react@19.2.4)
+
+  '@asteby/metacore-marketplace@1.0.0(@asteby/metacore-app-providers@0.6.5(cdc6eec5af8d762a5c6a99ba0f23ea5a))(@tanstack/react-query@5.95.2(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)':
+    dependencies:
+      '@tanstack/react-query': 5.95.2(react@19.2.4)
+      react: 19.2.4
+      react-dom: 19.2.4(react@19.2.4)
+    optionalDependencies:
+      '@asteby/metacore-app-providers': 0.6.5(cdc6eec5af8d762a5c6a99ba0f23ea5a)
 
   '@asteby/metacore-notifications@5.0.0(@asteby/metacore-ui@0.7.0(@tanstack/react-query@5.95.2(react@19.2.4))(@tanstack/react-router@1.168.5(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@tanstack/react-table@8.21.3(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@types/react-dom@19.2.3(@types/react@19.2.14))(@types/react@19.2.14)(react-dom@19.2.4(react@19.2.4))(react-hook-form@7.72.0(react@19.2.4))(react-i18next@16.6.6(i18next@25.10.10(typescript@6.0.2))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(typescript@6.0.2))(react@19.2.4)(tailwindcss@4.2.2))(@asteby/metacore-websocket@0.3.0(react-dom@19.2.4(react@19.2.4))(react@19.2.4))(@tanstack/react-query@5.95.2(react@19.2.4))(date-fns@4.1.0)(lucide-react@1.7.0(react@19.2.4))(react-dom@19.2.4(react@19.2.4))(react@19.2.4)(sonner@2.0.7(react-dom@19.2.4(react@19.2.4))(react@19.2.4))':
     dependencies:
