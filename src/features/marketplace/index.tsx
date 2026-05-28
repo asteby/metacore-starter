@@ -26,9 +26,7 @@ export function MarketplacePage() {
   const { t } = useTranslation()
   const navigate = useNavigate()
   const clients = useMarketplaceClients()
-  const organizationId = useAuthStore(
-    (s) => s.auth.user?.organization_id ?? ''
-  )
+  const organizationId = useAuthStore((s) => s.auth.user?.organization_id ?? '')
 
   return (
     <div className='space-y-6 p-6'>

@@ -21,6 +21,7 @@
  * doesn't need to change.
  */
 import { useMemo } from 'react'
+import { useAuthStore } from '@asteby/metacore-auth'
 import {
   createFetchFetcher,
   createHubClient,
@@ -28,7 +29,6 @@ import {
   type HubClient,
   type OpsClient,
 } from '@asteby/metacore-marketplace/client'
-import { useAuthStore } from '@asteby/metacore-auth'
 
 /**
  * Public marketplace Hub. Default points at the asteby production Hub;
